@@ -6,11 +6,12 @@ b-cov
 *.out
 *.pid
 *.gz
+*.iws
 
+workspace.xml
 pids
 logs
 results
 build
 
-.idea
 node_modules
