@@ -1,0 +1,29 @@
+<div>
+    <div class="padding-25">
+        <h2>Login</h2>
+    </div>
+
+    <div class="login-container">
+        <div class="login-form col-sm-offset-1">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Username</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" placeholder="Username" ng-model="info.username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-7">
+                        <input type="password" class="form-control" placeholder="Password" ng-model="info.pass">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-7 vertical-padding-15">
+                        <button type="submit" class="btn btn-primary" ng-click="attemptLogin(info)">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

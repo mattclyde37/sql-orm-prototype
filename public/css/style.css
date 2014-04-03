@@ -1,0 +1,103 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #e8e8e8 !important;
+}
+
+a {
+    color: #00B7FF;
+}
+
+#main-header{
+    background-color: #2c3336;
+    position: absolute;
+    top:0;
+    right:0;
+    left:0;
+    height: 80px;
+    padding-left: 35px;
+}
+#main-header h1{
+    color: #f5f5f5;
+}
+
+#main-body{
+    background-color: #ffffff;
+    padding-top:80px;
+    padding-left: 70px;
+    padding-bottom: 70px;
+}
+
+#main-footer{
+    padding-top: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    color: gray;
+}
+
+.login-container{
+    height: 250px;
+    width:520px;
+    background-color: #dfe9e7;
+    border-radius: 15px;
+}
+
+.login-form{
+    padding-top: 50px;
+}
+
+.padding-25 {
+    padding: 25px;
+}
+
+#current-users li span{
+    cursor: pointer;
+}
+#current-users li span:hover{
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+#current-users p{
+    margin: 0;
+    padding: 0;
+}
+#current-users #user-info{
+    padding-left: 30px;
+}
+
+#current-users input{
+    margin-top: 10px;
+}
+
+.inline{
+    display: inline;
+}
+
+.vertical-padding-15{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.vertical-padding-30{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.horizontal-padding-10{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+

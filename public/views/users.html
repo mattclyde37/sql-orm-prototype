@@ -1,0 +1,52 @@
+<div>
+    <div id="current-users" class="padding-25">
+        <h2>Current Users</h2>
+        <ul>
+            <li ng-repeat="user in users">
+                <span ng-click="userClicked(user)">{{user.username}}</span>
+            </li>
+        </ul>
+        <div ng-show="selectedUser != null" >
+            <div class="vertical-padding-15" ng-show="!editing">
+                <h2 class="inline">{{selectedUser.username}}</h2> <a class="horizontal-padding-10" href="" ng-click="editUser(selectedUser)">edit</a>
+            </div>
+            <div class="vertical-padding-15" ng-show="editing">
+                <input type="text" ng-model="selectedUser.username"/> <a class="horizontal-padding-10" href="" ng-click="doneEditingUser(selectedUser)">done</a>
+            </div>
+            <div id="user-info">
+                <p>id: {{selectedUser.id}}</p>
+                <p>created at: {{selectedUser.createdAt}}</p>
+                <p>updated at: {{selectedUser.updatedAt}}</p>
+                <div class="btn btn-danger vertical-padding-15" ng-click="deleteUser(selectedUser)">Delete User</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-user" class="padding-25">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Username</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="Username" ng-model="newUserInfo.name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Password</label>
+                <div class="col-sm-3">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="newUserInfo.pass">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Admin</label>
+                <div class="col-sm-3">
+                    <input type="checkbox" class="form-control" ng-model="newUserInfo.isAdmin">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-3">
+                    <button type="submit" class="btn btn-primary" ng-click="createUser(newUserInfo)">Create User</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
