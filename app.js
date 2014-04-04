@@ -16,7 +16,6 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -78,13 +77,13 @@ app.get('/forbidden', function (req, res){
 
 app.all('/api/*', requireAuthentication);
 
-
 function requireAuthentication(req, res, next){
     if (req.session.userId)
         next();
     else
-        res.status(403).send('Forbidden route');
+        res.status(401).send('Please log in');
 }
+
 
 
 // Authentication

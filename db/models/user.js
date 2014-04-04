@@ -30,10 +30,11 @@ exports.define = function(app, sequelize){
 
 
 // Adds a user with the supplied username and password
-function addUser (name, password, handler) {
+function addUser (name, password, isAdmin, handler) {
     User.create({
         username: name,
-        password: password
+        password: password,
+        isAdmin: isAdmin
     })
         .complete(function (err, user){
             if (!!err) {
@@ -108,7 +109,7 @@ function updateUser(setValues, whereValues, handler){
 function defineApi(app){
 
     app.post('/api/addUser', function (req, res){
-        addUser(req.body.username, req.body.password, function (err, user){
+        addUser(req.body.username, req.body.password, req.body.isAdmin, function (err, user){
             if (!!err){
                 res.status(500).send('Error while adding user');
             } else {
@@ -160,4 +161,33 @@ function defineApi(app){
         }
     });
 
+    app.post('/admin/updateUserRole', requireAdmin, function (req, res){
+        if (req.body.id){
+            var update = {isAdmin: req.body.isAdmin};
+            updateUser(update, {id: req.body.id}, function(err, affectedUsers){
+                if (!!err)
+                    res.status(500).send('Error while updating user');
+                else
+                    res.send(affectedUsers);
+            });
+        }else{
+            res.send(0);
+        }
+    });
+
+}
+
+
+
+function requireAdmin (req, res, next){
+    if (req.session.userId){
+        findUser({id: req.session.userId}, function (err, user){
+            if (user && user.isAdmin)
+                next();
+            else
+                res.status(403).send('Permissions denied');
+        });
+    } else {
+        res.status(401).send('Please log in');
+    }
 }

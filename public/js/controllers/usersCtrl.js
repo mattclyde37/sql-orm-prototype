@@ -14,7 +14,7 @@ angular.module('sql-prototype')
 
         // Creates a new user
         $scope.createUser = function(info){
-            UserManager.addUser(info.name, info.pass, function (user){
+            UserManager.addUser(info.name, info.pass, info.isAdmin, function (user){
                loadUsers();
             });
             info.name = '';
@@ -58,6 +58,15 @@ angular.module('sql-prototype')
                 if (affectedUsers)
                     loadUsers();
             })
+        };
+
+        $scope.saveUsersRole = function (user){
+            debugger;
+            UserManager.updateUsersRole(user.id, user.isAdmin, function (affectedUsers){
+                debugger;
+               if (affectedUsers)
+                   loadUsers();
+            });
         };
 
 
