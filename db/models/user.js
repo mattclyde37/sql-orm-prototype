@@ -3,11 +3,14 @@ var User;
 exports.define = function(app, sequelize){
     var Sequelize = require('sequelize');
     // Define table 'User'
-    // id, createdAt, and UpdatedAt are created automatically
     User = sequelize.define('User', {
+        id: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         username: Sequelize.STRING,
-        password: Sequelize.STRING,
-        isAdmin: Sequelize.BOOLEAN
+        password: {},
+        role_code: {}
     });
 
     sequelize

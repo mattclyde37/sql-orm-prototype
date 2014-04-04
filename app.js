@@ -8,7 +8,7 @@ var http = require('http');
 var path = require('path');
 var compiler = require('./compiler');
 var db = require('./db');
-var user =  require('./db/user');
+var user =  require('./db/models/user');
 
 compiler.compile();
 

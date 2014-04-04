@@ -7,7 +7,7 @@ exports.connect = function (){
         , sequelize = new Sequelize('test_db', 'username', 'password', {
             dialect: "sqlite", // or 'mysql', 'postgres', 'mariadb'
             port:    3306, // or 5432 (for postgres)
-            storage: './test_db.sqlite' // path to the database
+            storage: './db/test_db.sqlite' // path to the database
         });
 
     sequelize
