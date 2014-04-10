@@ -45,12 +45,23 @@ angular.module('sql-prototype', ['ui.router'])
                 templateUrl: 'views/users.html',
                 controller: 'UsersCtrl'
             })
+            .state('characters', {
+                url: '/characters',
+                templateUrl: 'views/characters.html',
+                controller: 'CharactersCtrl'
+            })
+            .state('quotes', {
+                url: '/quotes',
+                templateUrl: 'views/quotes.html',
+                controller: 'QuoteCtrl'
+            })
             .state('forbidden', {
                 url: '/forbidden',
                 templateUrl: 'views/forbidden.html'
             });
 
         $httpProvider.responseInterceptors.push(handle400Responses);
+        $httpProvider.interceptors.push(handleLoadingBoardcasts);
     });
 
 
@@ -81,4 +92,19 @@ function handle400Responses ($q, $location) {
     return function (promise) {
         return promise.then(success, error);
     };
-};
+}
+
+function handleLoadingBoardcasts($q, $rootScope) {
+    return {
+        'request': function(config) {
+            var context = config.context || '';
+            $rootScope.$broadcast('loading-started-' + context);
+            return config || $q.when(config);
+        },
+        'response': function(response) {
+            var context = response.config.context || '';
+            $rootScope.$broadcast('loading-complete-' + context);
+            return response || $q.when(response);
+        }
+    };
+}

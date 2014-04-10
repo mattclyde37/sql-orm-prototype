@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS Character;
-DROP TABLE IF EXISTS Quote;
 DROP TABLE IF EXISTS Comment;
+DROP TABLE IF EXISTS Quote;
+DROP TABLE IF EXISTS Character;
+DROP TABLE IF EXISTS User;
+
 
 CREATE TABLE User
 (
@@ -24,7 +25,8 @@ CREATE TABLE Quote
     id uuid primary key not null,
     text character varying (4096),
     character_id uuid REFERENCES Character (id),
-    user_id uuid REFERENCES User (id)
+    user_id uuid REFERENCES User (id),
+    added_on timestamp with time zone
 );
 
 CREATE TABLE Comment

@@ -61,7 +61,6 @@ angular.module('sql-prototype')
         };
 
         $scope.saveUsersRole = function (user){
-            debugger;
             UserManager.updateUsersRole(user.id, user.isAdmin, function (affectedUsers){
                 debugger;
                if (affectedUsers)
@@ -73,7 +72,10 @@ angular.module('sql-prototype')
         // Gets all the current users
         function loadUsers(){
             UserManager.getAllUsers(function (users){
-               $scope.users = users;
+                users.forEach(function (user){
+                    user.isAdmin = (user.role_code === 'a');
+                });
+                $scope.users = users;
             });
         }
     });

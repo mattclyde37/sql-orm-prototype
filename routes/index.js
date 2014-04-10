@@ -3,6 +3,13 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.send('Hello World!');
+exports.init = function(app){
+
+    var security = require('./security');
+    var session = require('./session');
+
+    security.init(app);
+    session.init(app);
+
+
 };

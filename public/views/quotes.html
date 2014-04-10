@@ -1,0 +1,71 @@
+<div class="padding-25">
+    <h2>Quotes</h2>
+</div>
+
+<ul>
+    <quote ng-repeat="q in quotes.all" character="characters.keys[q.character_id]">{{q.text}}</quote>
+</ul>
+
+<form class="form-horizontal">
+    <fieldset>
+
+        <!-- Form Name -->
+        <legend>Add a Favorite Quote</legend>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-sm-4 control-label" for="quote-text">Quote</label>
+            <div class="col-sm-4">
+                <textarea ng-model="quote.text" class="form-control" id="quote-text" name="quote-text" required=""></textarea>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group matching-character-{{matchingCharacterFound}}">
+            <label class="col-sm-4 control-label" for="quote-character">Character</label>
+            <div class="col-sm-4">
+                <div class="col-sm-10" style="padding-left: 0; padding-right: 10px">
+                    <input ng-change="checkCharacter(quote.name)" ng-model="quote.name" id="quote-character" name="quote-character" type="text" placeholder="Character" class="form-control" required="">
+                </div>
+                <div ng-click='toggleFindCharacterModal()' class="btn btn-success col-sm-2"><span class="glyphicon glyphicon-search"></span></div>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group matching-character-{{matchingCharacterFound}}">
+            <label class="col-sm-4 control-label" for="quote-context">Context</label>
+            <div class="col-sm-4">
+                    <input ng-model="quote.context" id="quote-context" name="quote-context" type="text" placeholder="Life, Movie, TV Show, Book, etc..." class="form-control" required="">
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-sm-4 control-label" for=""></label>
+            <div class="col-sm-4">
+                <button ng-click="addQuote(quote)" id="" name="" class="btn btn-primary">Add Quote</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+
+<modal-dialog title='Characters' show='showCharacterModal' width='650px' height='50%'>
+    <div class="vertical-padding-15" style="height: 100%">
+        <div class="float-right">
+            <input type="text" class="form-control" placeholder="search" ng-model="search.text" />
+        </div>
+        <div class="clear"></div>
+        <div>
+            <div class="horizontal-padding-30">
+                <div ng-repeat="context in characters.contexts">
+                    <h4>{{context}}</h4>
+                    <ul class="select-character-list">
+                        <li ng-repeat="c in characters.contexts[context] | filter: search.text"><span ng-click="characterSelected(c)">{{c.name}}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</modal-dialog>

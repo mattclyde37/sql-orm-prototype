@@ -5,12 +5,12 @@ angular.module('sql-prototype')
 function UserManagerService($http){
 
     this.getAllUsers = function(handler){
-        $http.get('/api/allUsers')
+        $http.get('/api/allUsers', {context: 'all-users'})
             .success(handler);
     };
 
     this.getUser = function(name, handler){
-        $http.get('/api/findUser', {username: name})
+        $http.get('/api/findUser?username=' + name)
             .success(handler);
     };
 

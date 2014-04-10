@@ -21,6 +21,4 @@ angular.module('sql-prototype')
             UserSession.logout();
         }
 
-
-
     });

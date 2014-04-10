@@ -4,37 +4,36 @@ exports.define = function(app, sequelize){
     var Sequelize = require('sequelize');
     // Define table 'User'
     User = sequelize.define('User', {
-        id: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        username: Sequelize.STRING,
-        password: {},
-        role_code: {}
+        id: { type: Sequelize.UUID, allowNull: false },
+        username: Sequelize.STRING(64),
+        password: Sequelize.STRING(64),
+        role_code: Sequelize.STRING(1)
+    }, {
+        tableName: 'User',
+        timestamps: false
     });
 
-    sequelize
-        .sync({ force: false })
-        .complete(function(err) {
-            if (!!err) {
-                console.log('An error occurred while create the table:', err)
-            } else {
-                console.log('User table defined')
-            }
-        });
+    User.findUser = findUser;
 
     app.set('User', User);
 
     defineApi(app);
+
+    return User;
 };
+
+
 
 
 // Adds a user with the supplied username and password
 function addUser (name, password, isAdmin, handler) {
+    var uuid = require('node-uuid');
+    var role = isAdmin ? 'a' : 'u';
     User.create({
+        id: uuid.v4(),
         username: name,
         password: password,
-        isAdmin: isAdmin
+        role_code: role
     })
         .complete(function (err, user){
             if (!!err) {
@@ -61,8 +60,6 @@ function findUser (whereValues, handler){
             }
         });
 };
-// This is used while authenticating a user
-exports.findUser = findUser;
 
 
 // Finds all users
@@ -108,7 +105,9 @@ function updateUser(setValues, whereValues, handler){
 
 function defineApi(app){
 
-    app.post('/api/addUser', function (req, res){
+    var userTypes = require('../userTypes').get();
+
+    app.post('/api/addUser', userTypes.any(userTypes.all), function (req, res){
         addUser(req.body.username, req.body.password, req.body.isAdmin, function (err, user){
             if (!!err){
                 res.status(500).send('Error while adding user');
@@ -118,7 +117,7 @@ function defineApi(app){
         });
     });
 
-    app.post('/api/removeUser', function (req, res){
+    app.post('/api/removeUser', userTypes.any(userTypes.all), function (req, res){
         removeUser({username: req.body.username}, function(err, result){
             if (!!err){
                 res.status(500).send('Error while removing user');
@@ -128,7 +127,7 @@ function defineApi(app){
         }) ;
     });
 
-    app.get('/api/findUser', function (req, res){
+    app.get('/api/findUser', userTypes.any(userTypes.all), function (req, res){
         findUser({username: req.query.username}, function (err, user){
             if (!!err){
                 res.status(500).send('Error while finding user: ' + req.body.username);
@@ -138,7 +137,7 @@ function defineApi(app){
         });
     });
 
-    app.get('/api/allUsers', function (req, res){
+    app.get('/api/allUsers', userTypes.any(userTypes.all), function (req, res){
         allUsers(function (err, users){
             if (!!err){
                 res.status(500).send('Error while finding all users');
@@ -148,7 +147,7 @@ function defineApi(app){
         });
     });
 
-    app.post('/api/updateUsername', function (req, res){
+    app.post('/api/updateUsername', userTypes.any(userTypes.all), function (req, res){
         if (req.body.username && req.body.id) {
             var update = {username: req.body.username}
             updateUser(update, {id: req.body.id}, function (err, affectedUsers) {
@@ -161,9 +160,12 @@ function defineApi(app){
         }
     });
 
-    app.post('/admin/updateUserRole', requireAdmin, function (req, res){
+    app.post('/admin/updateUserRole', userTypes.is(userTypes.Admin), function (req, res){
         if (req.body.id){
-            var update = {isAdmin: req.body.isAdmin};
+            var role = 'u';
+            if (req.body.isAdmin)
+                role = 'a';
+            var update = {role_code: role};
             updateUser(update, {id: req.body.id}, function(err, affectedUsers){
                 if (!!err)
                     res.status(500).send('Error while updating user');
@@ -175,19 +177,4 @@ function defineApi(app){
         }
     });
 
-}
-
-
-
-function requireAdmin (req, res, next){
-    if (req.session.userId){
-        findUser({id: req.session.userId}, function (err, user){
-            if (user && user.isAdmin)
-                next();
-            else
-                res.status(403).send('Permissions denied');
-        });
-    } else {
-        res.status(401).send('Please log in');
-    }
 }
