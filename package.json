@@ -9,6 +9,8 @@
     "express": "3.5.1",
     "sequelize": "~1.7.0",
     "sqlite3": "~2.2.0",
-    "mysql": "~2.1.1"
+    "mysql": "~2.1.1",
+    "node-uuid": "~1.4.1",
+    "angular-wizard": "~0.3.0"
   }
 }

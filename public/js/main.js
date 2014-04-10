@@ -5,7 +5,7 @@ angular.module('sql-prototype', ['ui.router'])
     .run(function ($rootScope, $location, $state, UserSession, _) {
 
         // enumerate routes that don't need authentication
-        var cleanStates = ['login', 'welcome'];
+        var cleanStates = ['login', 'welcome', 'wizard'];
 
         var isCleanState = function (state){
             return (cleanStates.indexOf(state) !== -1);
@@ -54,6 +54,11 @@ angular.module('sql-prototype', ['ui.router'])
                 url: '/quotes',
                 templateUrl: 'views/quotes.html',
                 controller: 'QuoteCtrl'
+            })
+            .state('wizard', {
+                url: '/wizard',
+                templateUrl: 'views/wizard.html',
+                controller: 'WizardCtrl'
             })
             .state('forbidden', {
                 url: '/forbidden',
