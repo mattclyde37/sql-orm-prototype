@@ -31,9 +31,8 @@ exports.init = function (app){
                     res.send({success: false, message: result.error});
                 } else {
                     // Successful login
-                    req.session.userId = result.user.id;
                     req.session.user = result.user;
-                    res.send({success: true})
+                    res.send({success: true, user: result.user})
                 }
             }
         });
@@ -47,15 +46,14 @@ exports.init = function (app){
         });
     });
 
-    app.get('/isLoggedIn', function (req,res){
-        if (req.session.userId) {
-            User.findUser({id: req.session.userId}, function (err, user){
-                // ignoring if there's an error here... may not want to do that
-                res.send({loggedIn: true, username: user.username});
-            });
+    app.get('/user', function (req,res){
+        if (req.session.user) {
+            res.send(req.session.user);
         }
         else
-            res.send({loggedIn: false});
+            res.status(401).send();
     });
+
+
 
 };

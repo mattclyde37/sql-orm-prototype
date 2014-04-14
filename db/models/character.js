@@ -111,9 +111,9 @@ function defineApi (app){
     });
 
 
-    app.get('/api/character/quotes', userTypes.any(userTypes.all), function (req, res){
-        if (req.param('id')){
-            Character.find({where: {id: req.param('id')}})
+    app.get('/api/characters/:id/quotes', userTypes.any(userTypes.all), function (req, res){
+        if (req.params.id){
+            Character.find({where: {id: req.params.id}})
                 .success(function (character){
                     character.getQuotes()
                         .success(function (quotes){
