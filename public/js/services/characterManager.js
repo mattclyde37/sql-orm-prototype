@@ -25,7 +25,7 @@ function CharacterManagerService($http){
     };
 
     this.getCharactersQuotes = function (id){
-        return $http.get('/api/character/quotes?id=' + id);
+        return $http.get('/api/characters/' + id + '/quotes');
     }
 
 }

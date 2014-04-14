@@ -5,7 +5,7 @@ angular.module('sql-prototype', ['ui.router'])
     .run(function ($rootScope, $location, $state, UserSession, _) {
 
         // enumerate routes that don't need authentication
-        var cleanStates = ['login', 'welcome', 'wizard'];
+        var cleanStates = ['login', 'welcome'];
 
         var isCleanState = function (state){
             return (cleanStates.indexOf(state) !== -1);
@@ -13,12 +13,16 @@ angular.module('sql-prototype', ['ui.router'])
 
         $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
 
+
+
+            /*
             if (!isCleanState(to.name) && !UserSession.isLoggedIn()){
                 debugger;
                 UserSession.desiredState = to.name;
                 ev.preventDefault();
                 $state.go('login');
             }
+            */
         });
     })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider){

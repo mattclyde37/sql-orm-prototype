@@ -3,10 +3,12 @@ angular.module('sql-prototype')
 
 function UserSessionService ($http){
 
-    var _loggedIn = false;
-    $http.get('/isLoggedIn')
-        .success(function (result){
-            _loggedIn = result.loggedIn;
+    var _user = null;
+    $http.get('/user')
+        .success(function (user){
+            _user = user;
+        })
+        .error(function (err){
         });
 
     this.desiredState = 'home';
@@ -15,11 +17,10 @@ function UserSessionService ($http){
         $http.post('/login', {username: username, pass: pass})
             .success(function (result){
                 if (result.success)
-                    _loggedIn = true;
+                    _user = result.user;
                 else {
-                    _loggedIn = false;
+                    _user = null;
                 }
-
                 handler(result.success, result.message);
             });
     };
@@ -27,13 +28,13 @@ function UserSessionService ($http){
     this.logout = function (handler){
         $http.get('/logout')
             .success(function (result){
-                _loggedIn = false;
+                _user = null;
                 handler(result);
             });
     };
 
     this.isLoggedIn = function(){
-        return _loggedIn;
+        return _user !== null;
     };
 
 }

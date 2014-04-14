@@ -3,7 +3,7 @@
 exports.init = function (app){
 
     var requireAuthentication = function (req, res, next){
-        if (req.session.userId)
+        if (req.session.user)
             next();
         else
             res.status(401).send('Please log in');

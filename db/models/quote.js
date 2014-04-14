@@ -62,8 +62,8 @@ function defineApi (app){
 
             if (req.body.character_id)
                 newQuote.character_id = req.body.character_id;
-            if (req.session.userId)
-                newQuote.user_id = req.session.userId;
+            if (req.session.user)
+                newQuote.user_id = req.session.user.id;
 
             Quote.create(newQuote)
                 .success(function (quote) {
